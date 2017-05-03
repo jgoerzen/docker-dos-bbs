@@ -17,8 +17,11 @@ fi
 
 NODE="$1"
 NODEPORT=$(($NODE + 8000))
+NODEVNC=$(($NODE + 3000))
 
-mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
+if [ ! -d "$SESSPATH" ]; then 
+  mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
+fi
 
 waitfordaemon vncserver true
 waitfordaemon smbd true
@@ -44,9 +47,8 @@ qemu-system-i386 -localtime \
    "$SESSPATH/c.qcow2" -boot c \
    -hdb "fat:$SESSPATH/drive_d" \
    -net nic,model=pcnet -net user \
-   -name "$SESSNAME" -vnc :2
-   -chardev socket,id=com1,host=localhost,port=$NODEPART -device isa-serial,chardev=com1
+   -name "$SESSNAME" -vnc ":$NODEVNC" \
+   -chardev socket,id=com1,host=localhost,port=$NODEPORT -device isa-serial,chardev=com1
 RETCODE="$?"
-rm -r "$SESSPATH"
 exit "$RETCODE"
 
