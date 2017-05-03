@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+MAXNODE=${BBSNODES:-`cat /dos/numnodes`}
+
+if [ "$MAXNODE" -lt 1 ]; then
+  echo "Configured for $MAXNODE nodes; exiting."
+  exec sleep 900d
+  exit 1 # just to be sure
+fi
+
+CMDLINE="-s 115200 "
+
+for NODE in `seq 1 $MAXNODE`; do
+  NODEVPORT=$(($NODE + 7000))
+  NODEPPORT=$(($NODE + 8000))
+  CMDLINE="$CMDLINE -v $NODEVPORT -p $NODEPPORT"
+done
+
+set -x
+exec /usr/bin/tcpser $CMDLINE
+

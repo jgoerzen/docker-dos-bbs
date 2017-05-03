@@ -2,7 +2,7 @@
 
 set -e
 
-MAXNODE=${BBSNODES:-1}
+MAXNODE=${BBSNODES:-`cat /dos/numnodes`}
 
 CMDLINE=""
 
