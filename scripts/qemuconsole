@@ -14,6 +14,7 @@ if [ "`cat /dos/startconsole`" = 0 ]; then
   exit 0
 fi
 
+BASEIMAGE="${BASEIMAGE:-/dos/baseimages/freedos-c-minimal.qcow2.gz}"
 if [ ! -d "$SESSPATH" ]; then
   mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
 fi
@@ -24,10 +25,10 @@ waitfordaemon nmbd true
 waitfordaemon tcpsercon true
 
 cd "$SESSPATH"
-echo "D:" >> drive_d/BOOTUP.BAT
-echo "cd ADF" >> drive_d/BOOTUP.BAT
-echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
-echo "CD \\" >> drive_d/BOOTUP.BAT
+#echo "D:" >> drive_d/BOOTUP.BAT
+#echo "cd ADF" >> drive_d/BOOTUP.BAT
+#echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
+#echo "CD \\" >> drive_d/BOOTUP.BAT
 
 # In case the user starts without the TCP stack
 cp -r /dos/drive_g/* drive_d/
