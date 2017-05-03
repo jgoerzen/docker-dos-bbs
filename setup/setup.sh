@@ -3,6 +3,9 @@
 set -e
 set -x
 
+echo 0 > /dos/numnodes
+echo 1 > /dos/startconsole
+
 # Unpack ADF (FOSSIL)
 cd /dos/drive_h
 mkdir adf

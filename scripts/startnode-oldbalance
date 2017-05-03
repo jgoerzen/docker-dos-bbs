@@ -2,9 +2,10 @@
 
 set -e
 
-MAXNODE=${BBSNODES:-1}
+MAXNODE=${BBSNODES:`cat /dos/numnodes`}
 
 if [ "$1" -gt "$MAXNODE" ]; then
+  echo "Node $1 greater than configured node count $MAXNODE; not starting"
   exec sleep 900d  # OK, so it's not forever, but close enough.
   exit 0           # Just to be really clear!
 fi
