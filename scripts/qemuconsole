@@ -24,10 +24,14 @@ waitfordaemon nmbd true
 waitfordaemon tcpsercon true
 
 cd "$SESSPATH"
-echo "H:" >> drive_d/BOOTUP.BAT
+echo "D:" >> drive_d/BOOTUP.BAT
 echo "cd ADF" >> drive_d/BOOTUP.BAT
 echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
-echo "G:" >> drive_d/BOOTUP.BAT
+echo "CD \\" >> drive_d/BOOTUP.BAT
+
+# In case the user starts without the TCP stack
+cp -r /dos/drive_g/* drive_d/
+cp -r /dos/drive_h/* drive_d/
 unix2dos drive_d/BOOTUP.BAT
 
 set +e
