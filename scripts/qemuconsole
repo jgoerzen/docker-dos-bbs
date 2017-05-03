@@ -20,6 +20,7 @@ mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
 waitfordaemon vncserver true
 waitfordaemon smbd true
 waitfordaemon nmbd true
+waitfordaemon tcpsercon true
 
 set +e
 qemu-system-i386 -localtime \
