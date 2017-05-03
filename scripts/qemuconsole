@@ -14,8 +14,9 @@ if [ "`cat /dos/startconsole`" = 0 ]; then
   exit 0
 fi
 
-
-mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
+if [ ! -d "$SESSPATH" ]; then
+  mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
+fi
 
 waitfordaemon vncserver true
 waitfordaemon smbd true
@@ -38,6 +39,5 @@ qemu-system-i386 -localtime \
    -name "$SESSNAME" -vnc :2
    -chardev socket,id=com1,host=localhost,port=7000 -device isa-serial,chardev=com1
 RETCODE="$?"
-rm -r "$SESSPATH"
 exit "$RETCODE"
 
