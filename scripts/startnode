@@ -26,7 +26,7 @@ fi
 waitfordaemon vncserver true
 waitfordaemon smbd true
 waitfordaemon nmbd true
-waitfordaemon "tcpser$NODE" true
+waitfordaemon tcpsernodes true
 
 cd "$SESSPATH"
 echo "H:" >> drive_d/BOOTUP.BAT
