@@ -7,24 +7,45 @@ SESSPATH="/dos/runimages/$SESSNAME"
 set -e
 set -x
 
+MAXNODE=${BBSNODES:`cat /dos/numnodes`}
+
+if [ "$1" -gt "$MAXNODE" ]; then
+  echo "Node $1 greater than configured node count $MAXNODE; not starting"
+  exec sleep 900d  # OK, so it's not forever, but close enough.
+  exit 0           # Just to be really clear!
+fi
+
+NODE="$1"
+NODEPORT=$(($NODE + 8000))
+
 mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
 
 waitfordaemon vncserver true
 waitfordaemon smbd true
 waitfordaemon nmbd true
+waitfordaemon "tcpser$NODE" true
 
+cd "$SESSPATH"
+echo "H:" >> drive_d/BOOTUP.BAT
+echo "cd ADF" >> drive_d/BOOTUP.BAT
+echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
+echo "G:" >> drive_d/BOOTUP.BAT
+
+if [ -e /dos/addtoboot ]; then
+  cat /dos/addtoboot >> drive_d/BOOTUP.BAT
+fi
+
+unix2dos drive_d/BOOTUP.BAT
+
+echo "Starting up node $NODE on port $NODEPORT"
 set +e
 qemu-system-i386 -localtime \
    "$SESSPATH/c.qcow2" -boot c \
    -hdb "fat:$SESSPATH/drive_d" \
    -net nic,model=pcnet -net user \
    -name "$SESSNAME" -vnc :2
-   # -chardev socket,id=com1,host=localhost,port=7000 -device isa-serial,chardev=com1
+   -chardev socket,id=com1,host=localhost,port=$NODEPART -device isa-serial,chardev=com1
 RETCODE="$?"
 rm -r "$SESSPATH"
 exit "$RETCODE"
 
-# Load up FOSSIL
-echo "y:" >> /dos/dosbox.conf
-echo "cd \\adf" >> /dos/dosbox.conf
-echo "call adfcom1" >> /dos/dosbox.conf
