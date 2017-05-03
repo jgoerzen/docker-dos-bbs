@@ -1,13 +1,13 @@
 #!/bin/bash
 
 export DISPLAY=:1
-SESSNAME="qemucon"
+SESSNAME="node$1"
 SESSPATH="/dos/runimages/$SESSNAME"
 
 set -e
 set -x
 
-MAXNODE=${BBSNODES:`cat /dos/numnodes`}
+MAXNODE=${BBSNODES:-`cat /dos/numnodes`}
 
 if [ "$1" -gt "$MAXNODE" ]; then
   echo "Node $1 greater than configured node count $MAXNODE; not starting"
