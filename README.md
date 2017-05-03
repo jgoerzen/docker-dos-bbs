@@ -6,8 +6,6 @@ to a remote BBS.  It can be used standalone, or as a base for other images.
 It is based upon:
  - [My qemu FreeDOS environment for Docker](https://github.com/jgoerzen/docker-qemu-dos)
  - [tcpser](https://packages.debian.org/jessie/tcpser) to simulate a modem.
- - [Balance](http://www.inlab.de/balance.html) to distribute incoming Telnet
-   sessions to nodes.
 
 An additional environment variable, BBSNODES, can be set to indicate how many nodes to
 start.  It defaults to 0 in this image, and can also be set within the image
