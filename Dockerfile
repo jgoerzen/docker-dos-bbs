@@ -1,4 +1,4 @@
-FROM jgoerzen/dosbox
+FROM jgoerzen/qemu-dos
 
 MAINTAINER John Goerzen <jgoerzen@complete.org>
 
