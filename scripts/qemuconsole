@@ -7,6 +7,14 @@ SESSPATH="/dos/runimages/$SESSNAME"
 set -e
 set -x
 
+if [ "`cat /dos/startconsole`" = 0 ]; then
+  echo "qemuconsole startup disabled by /dos/startconsole; not starting."
+  supervisorctl stop qemuviewer || true
+  sleep 900d
+  exit 0
+fi
+
+
 mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
 
 waitfordaemon vncserver true
