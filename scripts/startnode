@@ -35,7 +35,7 @@ echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
 echo "G:" >> drive_d/BOOTUP.BAT
 
 if [ -e /dos/addtoboot ]; then
-  cat /dos/addtoboot >> drive_d/BOOTUP.BAT
+  sed "s/__NODE__/$NODE/g" < /dos/addtoboot >> drive_d/BOOTUP.BAT
 fi
 
 unix2dos drive_d/BOOTUP.BAT

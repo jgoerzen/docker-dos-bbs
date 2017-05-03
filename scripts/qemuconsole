@@ -41,7 +41,7 @@ qemu-system-i386 -localtime \
    "$SESSPATH/c.qcow2" -boot c \
    -hdb "fat:$SESSPATH/drive_d" \
    -net nic,model=pcnet -net user \
-   -name "$SESSNAME" -vnc :2
+   -name "$SESSNAME" -vnc :2 \
    -chardev socket,id=com1,host=localhost,port=7000 -device isa-serial,chardev=com1
 RETCODE="$?"
 exit "$RETCODE"

@@ -28,11 +28,14 @@ And run with:
 Here's what you can find in this image.
 
  - `/dos/drive_*` corresponds to particular DOS drives.
- - Within DOSBox:
+ - Within the qemu network image:
    - `H:\SCRIPTS` is a convenient place to drop scripts as needed; also on the PATH
    - `H:\ADF` containts the ADF FOSSIL driver.
    - `H:\COMM` contains Telix and Telemate, nice DOS BBS clients.
    - `G:\DOORS` contains a few DOS DOOR games.
+   - `D:` is presented likea local filesystem, and besides the `BOOTUP.BAT` script,
+     also contains copies of the `G:` and `H:` files for those images that are
+     not able to mount network drives.
  - Config files:
    - `/dos/numnodes` is the default number of nodes to start.  This image 
       sets it to 0, and by default supports 9 (more could be supported 
@@ -67,7 +70,7 @@ BBS node system.  You will probably never need to work with these directly.
 From the VNC console with the default setup, you can dial into various BBSs.  Here is an
 example of what to type to get started:
 
-   g:
+   d:
    cd \comm\tm
    tm
 
