@@ -55,6 +55,8 @@ VNC is exposed on port 5901.  You can connect to this port.  You will see, by de
 an xterm (white) and a qemu terminal (black) running here, though
 child images may alter these defaults.
 
+If you want to see the console for a node, say node 2, just run `viewnode 2`.
+
 # Telnet ports
 
 Telnet is exposed on port 23, and runs the TelnetBBS system.
