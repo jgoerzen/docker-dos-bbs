@@ -32,8 +32,8 @@ cd telix_extract
 unzip /tmp/setup/telix351.zip
 cd ../TELIX
 unzip ../telix_extract/TELIX351.DAT
-rm -r /dos/drive_d/comm/telix_extract
-mv -vi /tmp/setup/TELIX.* /dos/drive_d/comm/TELIX/
+rm -r /dos/drive_g/comm/telix_extract
+mv -vi /tmp/setup/TELIX.* /dos/drive_g/comm/TELIX/
 
 
 # Download doors
