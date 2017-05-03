@@ -40,6 +40,7 @@ unix2dos drive_d/BOOTUP.BAT
 echo "Starting up node $NODE on port $NODEPORT"
 set +e
 qemu-system-i386 -localtime \
+   -m 32M \
    "$SESSPATH/c.qcow2" -boot c \
    -hdb "fat:$SESSPATH/drive_d" \
    -net nic,model=pcnet -net user \
