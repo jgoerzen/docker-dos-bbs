@@ -102,3 +102,20 @@ can be found at https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs
  - [Configuring DOSBox to allow inbound and outbound telnet connections](https://www.megaplonk.com/wiki/doku.php?id=emulation_and_virtualization:configuring_dosbox_to_allow_inbound_and_outbound_telnet_connections_as_if_dial-up_modem_calls)
  - [DOS BBS files](http://archives.thebbs.org/)
 
+# DOS BBS client and server
+
+This image is designed to let you run a DOS BBS inside Docker, or to connect
+to a remote BBS.  It can be used standalone, or as a base for other images.
+
+It is based upon [jgoerzen/dos-bbs](https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs).  Instead of using TelnetBBS to start up nodes on the fly, it instead
+runs persistent nodes with a simple load balancer to start them.
+
+Please see dos-bbs for the primary documentation.
+
+An additional environment variable, BBSNODES, can be set to indicate how many nodes to
+start.  It defaults to 1.
+
+# Source
+
+This is prepared by John Goerzen <jgoerzen@complete.org> and the source
+can be found at https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs
