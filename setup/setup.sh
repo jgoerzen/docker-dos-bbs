@@ -47,8 +47,3 @@ unzip -L /tmp/setup/doors/lord407.zip
 unzip -L lord.zip
 unzip -o -L /tmp/setup/doors/lord407-patch.zip
 
-# Load up FOSSIL
-echo "y:" >> /dos/dosbox.conf
-echo "cd \\adf" >> /dos/dosbox.conf
-echo "call adfcom1" >> /dos/dosbox.conf
-
