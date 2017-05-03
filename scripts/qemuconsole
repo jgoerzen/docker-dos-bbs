@@ -16,7 +16,7 @@ fi
 
 BASEIMAGE="${BASEIMAGE:-/dos/baseimages/freedos-c-minimal.qcow2.gz}"
 if [ ! -d "$SESSPATH" ]; then
-  mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
+  mksessimg "$BASEIMAGE" "$SESSNAME"
 fi
 
 waitfordaemon vncserver true
