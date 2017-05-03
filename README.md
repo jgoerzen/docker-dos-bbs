@@ -4,9 +4,14 @@ This image is designed to let you run a DOS BBS inside Docker, or to connect
 to a remote BBS.  It can be used standalone, or as a base for other images.
 
 It is based upon:
+ - [My qemu FreeDOS environment for Docker](https://github.com/jgoerzen/docker-qemu-dos)
+ - [tcpser](https://packages.debian.org/jessie/tcpser) to simulate a modem.
+ - [Balance](http://www.inlab.de/balance.html) to distribute incoming Telnet
+   sessions to nodes.
 
- - [My DOSBox environment for Docker](https://github.com/jgoerzen/docker-bbs/tree/master/dosbox)
- - [TelnetBBS, a multi-node telnet BBS setup](https://github.com/Geryon/TelnetBBS)
+An additional environment variable, BBSNODES, can be set to indicate how many nodes to
+start.  It defaults to 0 in this image, and can also be set within the image
+by modifying `/dos/numnodes`.
 
 # Install and run
 
@@ -23,76 +28,62 @@ And run with:
 Here's what you can find in this image.
 
  - `/dos/drive_*` corresponds to particular DOS drives.
- - `/dos/dosbox.conf` is the default DOSBox config for a single session,
-    started by default and by `/usr/local/bin/dosboxconsole`.
- - `/dos/dosbox-telnetbbs-template.conf` for the multi-node Telnet BBS server config
- - `/dos/TelnetBBS-master/telnetbbs.conf` is the main configuration for the Telnet BBS.
  - Within DOSBox:
-   - `Y:\DOS` contains some needed FreeDOS components and is on the PATH
-   - `Y:\SCRIPTS` is a convenient place to drop scripts as needed; also on the PATH
-   - `Y:\ADF` containts the ADF FOSSIL driver.
-   - `D:\COMM` contains Telix and Telemate, nice DOS BBS clients.
-   - `D:\DOORS` contains a few DOS DOOR games.
+   - `H:\SCRIPTS` is a convenient place to drop scripts as needed; also on the PATH
+   - `H:\ADF` containts the ADF FOSSIL driver.
+   - `H:\COMM` contains Telix and Telemate, nice DOS BBS clients.
+   - `G:\DOORS` contains a few DOS DOOR games.
+ - Config files:
+   - `/dos/numnodes` is the default number of nodes to start.  This image 
+      sets it to 0, and by default supports 9 (more could be supported 
+      via additional supervisor scripts). The `BBSNODES` environment
+      variable can override this setting.
+   - `/dos/addtoboot` contains additional commands to run at the boot time
+     of a node (but not the main console).  This would be a place to
+     fire up a BBS.
 
-See the jgoerzen/dosbox documentation for the recommendations on child image
+See the jgoerzen/qemu-dos documentation for the recommendations on child image
 usage of these drives.
 
-Note: this image provisions three files in /etc/supervisor/conf.d: dosbox.conf,
-telnetbbs.conf, and xterm.conf.  You probably will want to disable at least one of
-dosbox.conf or telnetbbs.conf in child images.
+Note: this image provisions a number of files in /etc/supervisor.d/conf.d. 
+Child images may want to modify them.
 
 # VNC Console
 
 VNC is exposed on port 5901.  You can connect to this port.  You will see, by default,
-an xterm (white) and a DOSBox terminal (black) running here, though
-child images may alter these defaults.  If you do not see a DOSBox terminal,
-then the command `dosboxconsole` should get one for you.
-
-Don't worry if the TelnetBBS consoles feel sluggish; DOSBox is set to
-frameskip=30 on them to help reduce wasted CPU cycles.  The dosboxconsole
-doesn't do any frameskip, however.
+an xterm (white) and a qemu terminal (black) running here, though
+child images may alter these defaults.
 
 # Telnet ports
 
 Telnet is exposed on port 23, and runs the TelnetBBS system.
 
-Within the image, port 5000 will connect you to the emulated modem
-in the default DOSBox console.  Ports 7001 and above are used for the
-TelnetBBS system.  You will probably never need to work with these directly.
+Within the image, port 8000 will connect you to the emulated modem
+in the default console.  Ports 8001 and above are used for the
+BBS node system.  You will probably never need to work with these directly.
 
 # Dialing into DOS BBSs
 
-From the VNC console with the default DOSBox, you can dial into various BBSs.  Here is an
+From the VNC console with the default setup, you can dial into various BBSs.  Here is an
 example of what to type to get started:
 
-   D:
+   g:
    cd \comm\tm
    tm
 
 This starts Telemate.  Now, close the blue phonebook with Esc and type:
 
-    ATNET1
     ATDTbbs.starbase21.net
 
-This will begin a Telnet session with DOSBox's simulated modem.  Note also
+This will begin a Telnet session with the simulated modem.  Note also
 that you can add a port number with :port at the end (eg, `ATDTbbs.starbase21.net:23`).
 
-The ATNET1 puts DOSBox into proper telnet mode.  Note that these commands are case-sensitive
-for DOSBOX.
-
-Alt-X exits Telemate, and Ctrl-F10 un-captures the mouse from the DOSBox window.
-
-# Notes on 8-bit cleanliness
-
-Different BBS systems run in "raw" mode, or inside the telnet protocol.
-Generally, images under here will run "raw".  When you connect remotely,
-if you have troubles with file transfers, try different permutations of
-ATNET0 and ATNET1.
+Alt-X exits Telemate.
 
 # Source
 
 This is prepared by John Goerzen <jgoerzen@complete.org> and the source
-can be found at https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs
+can be found at https://github.com/jgoerzen/docker-qemu-dos
 
 # More resources
 
@@ -102,20 +93,35 @@ can be found at https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs
  - [Configuring DOSBox to allow inbound and outbound telnet connections](https://www.megaplonk.com/wiki/doku.php?id=emulation_and_virtualization:configuring_dosbox_to_allow_inbound_and_outbound_telnet_connections_as_if_dial-up_modem_calls)
  - [DOS BBS files](http://archives.thebbs.org/)
 
-# DOS BBS client and server
+# Copyright
 
-This image is designed to let you run a DOS BBS inside Docker, or to connect
-to a remote BBS.  It can be used standalone, or as a base for other images.
+Docker scripts, etc. are
+Copyright (c) 2017 John Goerzen 
+All rights reserved.
 
-It is based upon [jgoerzen/dos-bbs](https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs).  Instead of using TelnetBBS to start up nodes on the fly, it instead
-runs persistent nodes with a simple load balancer to start them.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of the University nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
 
-Please see dos-bbs for the primary documentation.
+THIS SOFTWARE IS PROVIDED BY THE AUTHORS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
 
-An additional environment variable, BBSNODES, can be set to indicate how many nodes to
-start.  It defaults to 1.
+Additional software copyrights as noted.
 
-# Source
-
-This is prepared by John Goerzen <jgoerzen@complete.org> and the source
-can be found at https://github.com/jgoerzen/docker-bbs/tree/master/dos-bbs

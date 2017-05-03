@@ -13,7 +13,7 @@ cd adf
 unzip /tmp/setup/adf_150.zip
 
 # Set up Telemate
-cd /dos/drive_h
+cd /dos/drive_g
 mkdir comm
 cd comm
 unzip /tmp/setup/tm421.zip
@@ -25,7 +25,7 @@ sed -i 's/RegName=.*/RegName="Nobody"/' TM.CFG
 mv -vi /tmp/setup/TM.FON .
 
 # Set up Telix
-cd /dos/drive_h/comm
+cd /dos/drive_g/comm
 mkdir TELIX
 mkdir telix_extract
 cd telix_extract
