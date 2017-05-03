@@ -17,5 +17,3 @@ RUN /tmp/setup/setup.sh && rm -r /tmp/setup
 EXPOSE 5901 23
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
 
-VOLUME ["/dos/drive_g"]
-

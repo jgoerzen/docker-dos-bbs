@@ -10,14 +10,13 @@ if [ "$MAXNODE" -lt 1 ]; then
   exit 1 # just to be sure
 fi
 
-CMDLINE="-s 115200 "
+CMDLINE=""
 
 for NODE in `seq 1 $MAXNODE`; do
   NODEVPORT=$(($NODE + 7000))
-  NODEPPORT=$(($NODE + 8000))
-  CMDLINE="$CMDLINE -v $NODEVPORT -p $NODEPPORT"
+  CMDLINE="$CMDLINE -v $NODEVPORT -s 115200"
 done
 
 set -x
-exec /usr/bin/tcpser $CMDLINE
+exec /usr/bin/tcpser $CMDLINE -p 23
 
