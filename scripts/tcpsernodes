@@ -13,7 +13,7 @@ fi
 CMDLINE=""
 
 for NODE in `seq 1 $MAXNODE`; do
-  NODEVPORT=$(($NODE + 7000))
+  NODEVPORT=$(($NODE + 8000))
   CMDLINE="$CMDLINE -v $NODEVPORT -s 115200"
 done
 
