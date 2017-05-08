@@ -29,13 +29,15 @@ waitfordaemon nmbd true
 waitfordaemon tcpsernodes true
 
 cd "$SESSPATH"
-echo "H:" >> drive_d/BOOTUP.BAT
-echo "cd ADF" >> drive_d/BOOTUP.BAT
-echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
-echo "G:" >> drive_d/BOOTUP.BAT
+if [ ! -e drive_d/BOOTUP.BAT ]; then
+  echo "H:" >> drive_d/BOOTUP.BAT
+  echo "cd ADF" >> drive_d/BOOTUP.BAT
+  echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
+  echo "G:" >> drive_d/BOOTUP.BAT
 
-if [ -e /dos/addtoboot ]; then
-  sed "s/__NODE__/$NODE/g" < /dos/addtoboot >> drive_d/BOOTUP.BAT
+  if [ -e /dos/addtoboot ]; then
+    sed "s/__NODE__/$NODE/g" < /dos/addtoboot >> drive_d/BOOTUP.BAT
+  fi
 fi
 
 unix2dos drive_d/BOOTUP.BAT
