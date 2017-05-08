@@ -39,7 +39,7 @@ cd TM
 sed -i 's/Baud=38400/Baud=57600/' TM.CFG
 sed -i 's/RegNo=.*/RegNo="TM00F1C0129"/' TM.CFG
 sed -i 's/RegName=.*/RegName="Nobody"/' TM.CFG
-mv -vi /tmp/setup/TM.FON .
+mv -v /tmp/setup/TM.FON .
 
 # Set up Telix
 cd /dos/drive_g/comm
