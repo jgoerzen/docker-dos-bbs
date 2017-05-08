@@ -8,5 +8,5 @@ COPY scripts/ /usr/local/bin/
 RUN /tmp/setup/setup.sh && rm -r /tmp/setup
 
 EXPOSE 5901 23
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/local/bin/boot-supervisord"]
 
