@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 MAXNODE=${BBSNODES:-`cat /dos/numnodes`}
 FOUNDNODE=""
