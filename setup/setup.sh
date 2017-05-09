@@ -6,6 +6,9 @@ set -x
 echo 0 > /dos/numnodes
 echo 1 > /dos/startconsole
 
+echo '$_com1 = "virtual"' >> /etc/dosemu/dosemu.conf
+
+
 ## Do the downloads
 cd /tmp/setup
 wget https://ftp.sunet.se/mirror/archive/ftp.sunet.se/pub/simtelnet/msdos/fossil/adf_150.zip
