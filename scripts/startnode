@@ -25,6 +25,6 @@ if [ -e /dos/nodeprephook.sh ]; then
   . /dos/nodeprephook.sh
 fi
 
-echo "Connecting you to $SESSION..."
+echo "Welcome to node $FOUNDNODE.  Please stand by while we connect you..."
 exec startdossession $SESSNAME "H:\\STARTUP\\NODE$FOUNDNODE"
 
