@@ -16,6 +16,8 @@ wget https://ftp.sunet.se/mirror/archive/ftp.sunet.se/pub/simtelnet/msdos/fossil
 wget http://www.starbase21.net/tm421.zip
 wget https://archive.org/download/TelixCommunications_1020/telix351.zip
 wget http://ftp.stat.duke.edu/bats/pkz204g.exe
+wget http://presys.com/~ahgray/stuff/list91k.zip
+wget http://www.filegate.net/comm/dszexe.zip
 
 sha256sum -c < sums
 
@@ -31,6 +33,22 @@ mkdir /tmp/setup/t
 cd /tmp/setup/t
 unzip ../pkz204g.exe
 mv -v PKZIP.EXE PKUNZIP.EXE PKUNZJR.COM /dos/drive_h/UTILS/
+cd /tmp/setup
+rm -r /tmp/setup/t
+
+# Unpack LIST
+mkdir /tmp/setup/t
+cd /tmp/setup/t
+unzip ../list91k.zip
+mv -v LIST.COM /dos/drive_h/UTILS/
+cd /tmp/setup
+rm -r /tmp/setup/t
+
+# Unpack DSZ
+mkdir /tmp/setup/t
+cd /tmp/setup/t
+unzip ../dszexe.zip
+mv -v DSZ.EXE /dos/drive_h/UTILS/
 cd /tmp/setup
 rm -r /tmp/setup/t
 
