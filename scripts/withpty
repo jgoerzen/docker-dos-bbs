@@ -1,0 +1,7 @@
+#!/usr/bin/python
+
+# dosemu requires its "virtual" com port to be a PTY.  This runs it in one.
+import sys
+import pty
+
+pty.spawn(sys.argv[1:])

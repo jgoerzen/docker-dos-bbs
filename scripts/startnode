@@ -1,56 +1,37 @@
 #!/bin/bash
 
-export DISPLAY=:1
-SESSNAME="node$1"
-SESSPATH="/dos/runimages/$SESSNAME"
-
 set -e
 set -x
 
 MAXNODE=${BBSNODES:-`cat /dos/numnodes`}
+FOUNDNODE=""
 
-if [ "$1" -gt "$MAXNODE" ]; then
-  echo "Node $1 greater than configured node count $MAXNODE; not starting"
-  exec sleep 900d  # OK, so it's not forever, but close enough.
-  exit 0           # Just to be really clear!
-fi
-
-NODE="$1"
-NODEPORT=$(($NODE + 8000))
-NODEVNC=$(($NODE + 3000))
-
-if [ ! -d "$SESSPATH" ]; then 
-  mksessimg /dos/baseimages/freedos-c-net.qcow2.gz "$SESSNAME"
-fi
-
-waitfordaemon vncserver true
-waitfordaemon smbd true
-waitfordaemon nmbd true
-waitfordaemon tcpsernodes true
-
-cd "$SESSPATH"
-if [ ! -e drive_d/BOOTUP.BAT ]; then
-  echo "H:" >> drive_d/BOOTUP.BAT
-  echo "cd ADF" >> drive_d/BOOTUP.BAT
-  echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> drive_d/BOOTUP.BAT
-  echo "G:" >> drive_d/BOOTUP.BAT
-
-  if [ -e /dos/addtoboot ]; then
-    sed "s/__NODE__/$NODE/g" < /dos/addtoboot >> drive_d/BOOTUP.BAT
+for NODE in `seq 1 $MAXNODE`; do
+  if ! check-dosemu-session node$NODE &> /dev/null; then
+    FOUNDNODE="$NODE"
+    break
   fi
+done
+
+if [ -z "$FOUNDNODE" ]; then
+  echo "All nodes are busy now; please try again later."
+  exit 1
 fi
 
-unix2dos drive_d/BOOTUP.BAT
+SESSNAME=node$FOUNDNODE
+STARTUP=/dos/drive_h/STARTUP/NODE$FOUNDNODE.BAT
+if [ ! -e $STARTUP ]; then
+  echo "H:" >> $STARTUP.tmp
+  echo "cd ADF" >> $STARTUP.tmp
+  echo "lh adf COM1 3F8  4 115200 8192  8192  8" >> $STARTUP.tmp
+  echo "G:" >> $STARTUP.tmp
+  echo "cd rg" >> $STARTUP.tmp
+  echo "renegade /N$FOUNDNODE -Q -B115200" >> $STARTUP.tmp
+  echo "exitemu" >> $STARTUP.tmp
+  unix2dos $STARTUP.tmp &> /dev/null
+  mv $STARTUP.tmp $STARTUP
+fi
 
-echo "Starting up node $NODE on port $NODEPORT"
-set +e
-qemu-system-i386 -localtime \
-   -m 32M \
-   "$SESSPATH/c.qcow2" -boot c \
-   -hdb "fat:$SESSPATH/drive_d" \
-   -net nic,model=pcnet -net user \
-   -name "$SESSNAME" -vnc ":$NODEVNC" \
-   -chardev socket,id=com1,host=localhost,port=$NODEPORT -device isa-serial,chardev=com1
-RETCODE="$?"
-exit "$RETCODE"
+echo "Welcome to node $FOUNDNODE"
+exec startdossession $SESSNAME "H:\\STARTUP\\NODE$FOUNDNODE"
 
