@@ -7,7 +7,7 @@ echo 0 > /dos/numnodes
 echo 1 > /dos/startconsole
 
 echo '$_com1 = "virtual"' >> /etc/dosemu/dosemu.conf
-
+mkdir /dos/drive_h/STARTUP
 
 ## Do the downloads
 cd /tmp/setup
