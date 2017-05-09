@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export DISPLAY=:1
+SESSNAME="console"
+
+set -e
+set -x
+
+if [ "`cat /dos/startconsole`" = 0 ]; then
+  echo "$0 startup disabled by /dos/startconsole; not starting."
+  sleep 900d
+  exit 0
+fi
+
+
+waitfordaemon vncserver true
+waitfordaemon tcpsercon true
+
+exec socat TCP4:localhost:7000 EXEC:"startdossession console"
+

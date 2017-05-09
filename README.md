@@ -70,7 +70,7 @@ BBS node system.  You will probably never need to work with these directly.
 From the VNC console with the default setup, you can dial into various BBSs.  Here is an
 example of what to type to get started:
 
-   d:
+   g:
    cd \comm\tm
    tm
 
