@@ -15,6 +15,7 @@ cd /tmp/setup
 wget https://ftp.sunet.se/mirror/archive/ftp.sunet.se/pub/simtelnet/msdos/fossil/adf_150.zip
 wget http://www.starbase21.net/tm421.zip
 wget https://archive.org/download/TelixCommunications_1020/telix351.zip
+wget http://ftp.stat.duke.edu/bats/pkz204g.exe
 
 sha256sum -c < sums
 
@@ -24,6 +25,14 @@ wget http://archives.scovetta.com/pub/fehq/BBSDoorGames/2002v309.zip
 wget http://www.slbbs.com/files/doorgame/lord407.zip
 wget http://www.slbbs.com/files/doorgame/lord407-patch.zip
 sha256sum -c < ../doorsums
+
+# Unpack PKZIP
+mkdir /tmp/setup/t
+cd /tmp/setup/t
+unzip ../pkz204g.exe
+mv -v PKZIP.EXE PKUNZIP.EXE PKUNZJR.COM /dos/drive_h/UTILS/
+cd /tmp/setup
+rm -r /tmp/setup/t
 
 # Unpack ADF (FOSSIL)
 cd /dos/drive_h
