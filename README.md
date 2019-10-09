@@ -5,7 +5,7 @@ to a remote BBS.  It can be used standalone, or as a base for other images.
 
 It is based upon:
  - [My DosEMU environment for Docker](https://github.com/jgoerzen/docker-dosemu).  Please see this
-   page for more documentation.
+   page for more documentation, including how to set the VNC password.
  - [tcpser](https://packages.debian.org/jessie/tcpser) to simulate a modem.
 
 An additional environment variable, BBSNODES, can be set to indicate how many nodes to
